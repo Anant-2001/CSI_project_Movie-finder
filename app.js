@@ -13,8 +13,14 @@ async function getMovies(URL){
   const resp = await fetch(URL);
   const respData = await resp.json()
   console.log(respData);
+
+  if(respData.total_results == 0){
+    main.innerHTML = `
+    <h2 class = "error"> Movie not found </h2>
+    `;
+  }
   
-  displayMovies(respData.results);
+  else{displayMovies(respData.results)};
 }
 
 function displayMovies(movies){
@@ -31,7 +37,7 @@ function displayMovies(movies){
 
     movieElement.innerHTML = 
     ` 
-    <img  src=" ${IMGPATH + movie.poster_path} " alt= "${movie.title}"/>
+    <img class = "poster-image"  src=" ${IMGPATH + movie.poster_path} " alt= "${movie.title}"/>
     <div class="movie-info">
       <h3>${movie.title}</h3>
       <span>${movie.vote_average}</span>
@@ -55,5 +61,6 @@ form.addEventListener("submit", (event) => {
     getMovies(SEARCHAPI + searchMovie);
     search.value = "";
   }
+
   
 } )
